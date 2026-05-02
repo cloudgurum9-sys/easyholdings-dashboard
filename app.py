@@ -100,7 +100,11 @@ if menu == "1. 그룹 연결결산 요약":
     bar_chart = alt.Chart(sales_by_comp).mark_bar(color="#1f77b4", size=50).encode(
         x=alt.X('매출법인(Seller):N', axis=alt.Axis(labelAngle=0, title='매출법인')),
         y=alt.Y('매출액(장부):Q', axis=alt.Axis(title='매출액(원)')),
-        tooltip=['매출법인(Seller)', '매출액(장부)']
+        # 💡 수정된 부분: alt.Tooltip을 사용하여 format 지정
+        tooltip=[
+            alt.Tooltip('매출법인(Seller):N', title='매출법인(Seller)'),
+            alt.Tooltip('매출액(장부):Q', title='매출액(장부)', format=',') 
+        ]
     ).properties(height=350)
     
     st.altair_chart(bar_chart, use_container_width=True)
