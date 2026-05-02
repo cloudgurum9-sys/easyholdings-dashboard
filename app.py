@@ -94,13 +94,14 @@ if menu == "1. 그룹 연결결산 요약":
     
     st.divider()
     
-    st.subheader("📈 주요 계열사별 내부매출 규모 (2025년 4분기 기준)")
+    st.subheader("📈 주요 계열사별 내부매출 규모")
     
     sales_by_comp = df_inter.groupby('매출법인(Seller)')['매출액(장부)'].sum().reset_index()
     
     bar_chart = alt.Chart(sales_by_comp).mark_bar(color="#1f77b4", size=50).encode(
         x=alt.X('매출법인(Seller):N', axis=alt.Axis(labelAngle=0, title='매출법인')),
         y=alt.Y('매출액(장부):Q', axis=alt.Axis(title='매출액(원)')),
+        # 💡 천 단위 쉼표 포맷은 그대로 유지
         tooltip=[
             alt.Tooltip('매출법인(Seller):N', title='매출법인(Seller)'),
             alt.Tooltip('매출액(장부):Q', title='매출액(장부)', format=',') 
@@ -108,7 +109,6 @@ if menu == "1. 그룹 연결결산 요약":
     ).properties(height=350)
     
     st.altair_chart(bar_chart, use_container_width=True)
-
 # ---------------------------------------------------------
 # 4. 화면 2: 계열사 내부거래 자동 대사 (Reconciliation)
 # ---------------------------------------------------------
